@@ -50,7 +50,7 @@ public class MemberService {
     }
 
     //Paging
-    public Page<Member> readPaging(Pageable pageable){
+    public Page<Member>readPaging(Pageable pageable){
         log.info("readPaging...");
         return memberRepository.findAll(pageable);
     }

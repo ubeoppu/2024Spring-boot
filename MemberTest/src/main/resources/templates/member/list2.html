@@ -30,7 +30,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="member :${members}">
+    <tr th:each="member :${memberPage}">
         <td th:text="${member.id}"></td><!-- th:text 교체-->
         <td th:text="${member.name}"></td>
         <td th:text="${member.age}"></td>
@@ -47,5 +47,8 @@
     </tbody>
     </table>
 </div>
+<span th:each="i: ${#numbers.sequence(0, memberPage.totalPages-1)}">
+    <a th:href="@{/member/list2(page=${i})}" th:text="${i+1}"></a>
+</span>
 </body>
 </html>
