@@ -35,13 +35,13 @@ public class MemberController {
         List<Member> members = memberService.readAll();
         members.forEach(list -> log.info(list));
         model.addAttribute("members", members);
-        return "/member/list";
+        return "member/list";
     }
 
     @GetMapping("/new")
     public String newGet(Model model) {
         model.addAttribute("member", new Member());
-        return "/member/newForm";
+        return "member/newForm";
     }
 
     @PostMapping("/new")
@@ -57,7 +57,7 @@ public class MemberController {
     @GetMapping("/edit/{id}")
     public String updateGet(@PathVariable("id") Long id, Model model) {
         model.addAttribute("member", memberService.readOne(id));
-        return "/member/updateForm";
+        return "member/updateForm";
 
     }
 
