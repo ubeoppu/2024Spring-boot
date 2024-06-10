@@ -12,21 +12,21 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @Entity
-@Table(name="item")
+@Table(name = "item")
 public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "item_Nm")
-    private String itemNm;
+    @Column(nullable = false, length = 50)
+    private String itemNm;   //item_Nm
 
     @Column(name = "price", nullable = false)
-    private int price;
+    private  int price;   //price
 
-    @Column(name = "stoack_Number")
-    private int stoackNumber;
+    @Column(nullable = false)
+    private  int stoackNumber; //stoack_number
 
     @Lob
     @Column(nullable = false)
