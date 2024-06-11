@@ -5,35 +5,30 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="order_item")
+@Table(name = "order_item")
 @ToString
-@Getter
 @Setter
+@Getter
 public class OrderItem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="order_item_id")
+    @Column(name = "order_item_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name ="order_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")  //외래키 설정
     private Order order;
 
-    @ManyToOne
-    @JoinColumn(name ="item_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id")
     private Item item;
 
-    private int orderPrice;
-    private int count;
+    private int orderPrice; //가격
+    private int count; //  수량
 
-    private LocalDateTime regTime;
-    private LocalDateTime updateTime;
-
-
-
+    private LocalDateTime regTime;  //작성시간
+    private LocalDateTime upateTime;  //수정시간
 }
