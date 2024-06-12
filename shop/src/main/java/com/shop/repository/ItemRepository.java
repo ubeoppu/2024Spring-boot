@@ -15,6 +15,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> , QuerydslPred
 //    Item findByItemNmAndItemDetail(String itemNm, String itemDetail);
     List<Item> findByPriceLessThan(int price);
 
+
 //    @Query("select i.itemNm, i.price from Item i where i.itemDetail like %:itemDetail% order by  i.price asc")
     @Query("select i from Item i where i.itemDetail like %:itemDetail% order by  i.price asc")
     List<Item> findByItemDetail(@Param("itemDetail") String detail);

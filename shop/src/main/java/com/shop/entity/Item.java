@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 public class Item {
 
     @Id
+    @Column(name = "item_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -26,7 +27,7 @@ public class Item {
     private  int price;   //price
 
     @Column(nullable = false)
-    private  int stoackNumber; //stoack_number
+    private  int stockNumber; //stockNumber
 
     @Lob
     @Column(nullable = false)
