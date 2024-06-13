@@ -23,8 +23,6 @@ public class ItemDto {
 
     private String sellStatCd;
 
-    private int stoackNumber;
-
     private LocalDateTime regTime;
 
     private LocalDateTime updateTime;

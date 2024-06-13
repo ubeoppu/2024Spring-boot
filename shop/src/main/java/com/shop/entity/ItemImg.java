@@ -27,7 +27,7 @@ public class ItemImg extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)   //외래키 설정
     @JoinColumn(name="item_id")
     private Item item;
-
+    
     public void updateItemImg(String oriImgName, String imgName, String oriUrl) {
         this.oriImgName = oriImgName;
         this.imgName = imgName;

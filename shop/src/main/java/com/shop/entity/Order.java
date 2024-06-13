@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "orders")
 @ToString
 @Setter@Getter
-public class Order {
+public class Order extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class Order {
     private Member member;
 
     @OneToMany(mappedBy = "order" ,cascade = CascadeType.ALL
-            ,orphanRemoval = true)  //외래키 설정 하지않는다.
+            ,orphanRemoval = true, fetch = FetchType.LAZY)  //외래키 설정 하지않는다.
     private List<OrderItem> oderItems = new ArrayList<>();
 
     private LocalDateTime orderDate;   //주문일
@@ -34,7 +34,5 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    private LocalDateTime regTime;  //작성시간
-    private LocalDateTime upateTime;  //수정시간
 
 }
