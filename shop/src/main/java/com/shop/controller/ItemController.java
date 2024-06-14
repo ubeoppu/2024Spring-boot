@@ -133,7 +133,8 @@ public class ItemController {
 
        ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
        log.info("-------------------itemDtl2-----------------------------");
-       log.info(itemFormDto);
+       log.info("itemFormDto 값입니다...:"+itemFormDto);
+       log.info("----------------------------------------------------");
        log.info(itemFormDto.getItemImgDtoList().get(0).getImgUrl());
 
        model.addAttribute("item", itemFormDto);

@@ -36,9 +36,9 @@
                 itemId : $("#itemId").val(),
                 count : $("#count").val()
             };
-
+            console.log('itemId의 값' + itemId)
             var param = JSON.stringify(paramData);
-
+            console.log('param값:' + param);
             $.ajax({
                 url      : url,
                 type     : "POST",
@@ -76,6 +76,8 @@
                 itemId : $("#itemId").val(),
                 count : $("#count").val()
             };
+
+            console.log('itemId의 값' + itemId)
 
             var param = JSON.stringify(paramData);
 
@@ -140,7 +142,7 @@
 
 <div layout:fragment="content" style="margin-left:25%;margin-right:25%">
 
-    <input type="hidden" id="itemId" th:value="${item.id}">
+    <input type="text" id="itemId" th:value="${item.id}">
 
     <div class="d-flex">
         <div class="repImgDiv">

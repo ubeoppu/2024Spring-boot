@@ -11,12 +11,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-@Configuration
-@EnableWebSecurity
+@Configuration //@환경설정
+@EnableWebSecurity //해당 클래스가 웹 애플리케이션의 Spring security를 구성하고 있음을 나타낸다.
 @Log4j2
-public class SecurityConfig {
+public class SecurityConfig { //
 
-    @Bean
+    @Bean //security 여러 설정들
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         log.info("--------------------securityFilterChain----------------------------");
 
@@ -44,7 +44,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
+    @Bean //비밀번호 암호화
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
