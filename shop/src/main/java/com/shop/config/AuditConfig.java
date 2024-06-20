@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @Configuration
 @EnableJpaAuditing
+//현재 사용자의 정보를 반환하기 위한 클래스
 public class AuditConfig {
 
     @Bean

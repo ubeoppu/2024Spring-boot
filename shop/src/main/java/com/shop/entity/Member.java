@@ -30,8 +30,8 @@ public class Member  extends BaseEntity{
 
     private String address;
 
-    @Enumerated(EnumType.STRING)
-//    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING) //열거형 타입을 뜻함, 상수들의 지합
+    //Ex:Role { 'Admin', 'Member'}
     private Role role;
 
     // 이거 대신 Mapper란 것 이용할 수 있음.

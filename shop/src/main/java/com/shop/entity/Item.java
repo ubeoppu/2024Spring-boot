@@ -8,7 +8,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -28,15 +27,15 @@ public class Item extends BaseEntity {
     @Column(name = "price", nullable = false)
     private  int price;   //price
 
-    @Column(nullable = false)
+    @Column(nullable = false)//null값 허용 안함
     private  int stockNumber; //stoack_number
 
-    @Lob
+    @Lob //Large Object를 매핑하는데 사용됨. Large Object는 일반적으로 데이터베이스에 저장될 때 크기가 큰 데이터 객체를 의미.. 컬럼 타입 == longtext
     @Column(nullable = false)
     private String itemDetail;
 
-    @Enumerated(EnumType.STRING)
-    private ItemSellStatus itemSellStatus;
+    @Enumerated(EnumType.STRING)//열거형 타입.. 상수 그룹화
+    private ItemSellStatus itemSellStatus; //Order, Cancel
 
     public void updateItem(ItemFormDto itemFormDto){
         this.itemNm = itemFormDto.getItemNm();

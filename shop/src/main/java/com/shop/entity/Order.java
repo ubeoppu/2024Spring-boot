@@ -21,9 +21,9 @@ public class Order extends BaseEntity {
     @Column(name = "order_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne //다대일 관계
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member member; //멤버는 주문을 여러개 가질 수 있다.
 
     @OneToMany(mappedBy = "order" ,cascade = CascadeType.ALL
             ,orphanRemoval = true, fetch = FetchType.LAZY)  //외래키 설정 하지않는다.

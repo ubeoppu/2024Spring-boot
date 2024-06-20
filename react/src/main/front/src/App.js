@@ -1,29 +1,22 @@
 import logo from './logo.svg';
-import './App.css';
+import "./App.css"
+import Header from "./component/Header";
+import DayList from "./component/DayList";
+import Day from "./component/Day";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 function App() {
-  return (
-    <div className="App">
-      <h1
-        style ={{
-          color:"red",
-        }}
-        >
-        Welcome
-      </h1>
-        <span
-        style={{
-            color:"blue",
-        }}>React테스트...</span>
-        <p style={{
-            borderStyle:"solid",
-            borderRadius:"5px",
-            borderWidth:"1px",
-            width:"200px",
-            margin:"auto",
-        }}>단락 태그...</p>
-    </div>
 
+  return (
+      <BrowserRouter>
+      <div className="app">
+<Header/>
+          <Routes>
+              <Route  path="/" element={<DayList/>}/>
+              <Route  path="/day/:day" element={<Day/>}/>
+          </Routes>
+      </div>
+      </BrowserRouter>
   );
 }
 
