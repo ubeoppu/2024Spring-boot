@@ -1,6 +1,5 @@
 package com.shop.config;
 
-import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,22 +21,27 @@ public class SecurityConfig { //
 
         http.formLogin()
                         .loginPage("/members/login")
-                        .defaultSuccessUrl("/")
+                        //.defaultSuccessUrl("/")
                         .usernameParameter("email")  //로그인시 username으로 로그인 id일 때는 생략가능
                         .failureUrl("/members/login/error")
                         .and()
                         .logout()
                         .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
-                        .logoutSuccessUrl("/");
+                        .logoutSuccessUrl("/")
+                .and()
+          .sessionManagement()
+                .sessionFixation().newSession()
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true);
 
-        http.authorizeRequests()
-                        .mvcMatchers("/css/**", "/js/**", "/img/**").permitAll()
-                        .mvcMatchers("/", "/members/**", "/item/**", "/images/**").permitAll()
-                        .mvcMatchers("/admin/**").hasRole("ADMIN")
-                        .anyRequest().authenticated();
+//        http.authorizeRequests()
+//                        .mvcMatchers("/css/**", "/js/**", "/img/**").permitAll()
+//                        .mvcMatchers("/", "/members/**", "/item/**", "/images/**").permitAll()
+//                        .mvcMatchers("/admin/**").hasRole("ADMIN")
+//                        .anyRequest().authenticated();
 
-        http.exceptionHandling()
-                        .authenticationEntryPoint(new CustomAuthticationEntryPoint());
+//        http.exceptionHandling()
+//                        .authenticationEntryPoint(new CustomAuthticationEntryPoint());
 
         http.csrf().disable();
 

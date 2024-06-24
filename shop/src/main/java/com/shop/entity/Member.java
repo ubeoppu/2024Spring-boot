@@ -45,6 +45,14 @@ public class Member  extends BaseEntity{
                 .build();
     }
 
+    public Member(Long id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.role = Role.USER;
+
+    }
+
 
 
 }
