@@ -21,27 +21,28 @@ public class SecurityConfig { //
 
         http.formLogin()
                         .loginPage("/members/login")
-                        //.defaultSuccessUrl("/")
+                        .defaultSuccessUrl("/")
                         .usernameParameter("email")  //로그인시 username으로 로그인 id일 때는 생략가능
                         .failureUrl("/members/login/error")
-                        .and()
+                .and()
                         .logout()
                         .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
                         .logoutSuccessUrl("/")
+
                 .and()
           .sessionManagement()
                 .sessionFixation().newSession()
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(true);
 
-//        http.authorizeRequests()
-//                        .mvcMatchers("/css/**", "/js/**", "/img/**").permitAll()
-//                        .mvcMatchers("/", "/members/**", "/item/**", "/images/**").permitAll()
-//                        .mvcMatchers("/admin/**").hasRole("ADMIN")
-//                        .anyRequest().authenticated();
+        http.authorizeRequests()
+                        .mvcMatchers("/css/**", "/js/**", "/img/**", "/oauth/**").permitAll()
+                        .mvcMatchers("/", "/members/**", "/item/**", "/images/**").permitAll()
+                        .mvcMatchers("/admin/**").hasRole("ADMIN")
+                        .anyRequest().authenticated();
 
-//        http.exceptionHandling()
-//                        .authenticationEntryPoint(new CustomAuthticationEntryPoint());
+        http.exceptionHandling()
+                        .authenticationEntryPoint(new CustomAuthticationEntryPoint());
 
         http.csrf().disable();
 

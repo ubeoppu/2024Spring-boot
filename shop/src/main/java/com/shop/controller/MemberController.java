@@ -1,21 +1,37 @@
 package com.shop.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.shop.constant.Role;
+import com.shop.dto.MailDto;
 import com.shop.dto.MemberFormDto;
 import com.shop.entity.Member;
+import com.shop.repository.MemberRepository;
 import com.shop.service.MemberService;
 import com.shop.service.oAuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.security.Principal;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @Log4j2
@@ -24,7 +40,7 @@ public class MemberController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
     private final oAuthService oAuthService;
-
+    private final MemberRepository memberRepository;
 
     @GetMapping("/members/new")
     public String newMember(Model model) {
@@ -81,51 +97,142 @@ public class MemberController {
     }
 
     @GetMapping("/oauth/kakao/callback")
-    public String kakaoCallback(String code, HttpSession session) {
+    public String kakaoCallback(String code, HttpServletRequest request) {
         log.info("콜백작동...");
         log.info("code:" + code);
-        // SETP1 : 인가코드 받기
-        // (카카오 인증 서버는 서비스 서버의 Redirect URI로 인가 코드를 전달합니다.)
-        // System.out.println(code);
 
         // STEP2: 인가코드를 기반으로 토큰(Access Token) 발급
-        String accessToken = null;
+        String accessToken;
         try {
             accessToken = oAuthService.getAccessToken(code);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        //System.out.println("엑세스 토큰  "+accessToken);
 
         // STEP3: 토큰를 통해 사용자 정보 조회
-        Member member = null;
+        Member member;
         try {
             member = oAuthService.getKakaoInfo(accessToken);
-
             log.info("member값! :" + member);
-
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        //System.out.println("이메일 확인 "+kakaoInfo.getEmail());
 
         // STEP4: 카카오 사용자 정보 확인
         Member member1 = oAuthService.ifNeedKakaoInfo(member);
-
         log.info("member1값!" + member1);
 
         // STEP5: 강제 로그인
-        // 세션에 회원 정보 저장 & 세션 유지 시간 설정
         if (member1 != null) {
+            HttpSession session = request.getSession(true);
+
+            // 세션에 회원 정보 저장
             session.setAttribute("loginMember", member1);
-            // session.setMaxInactiveInterval( ) : 세션 타임아웃을 설정하는 메서드
-            // 로그인 유지 시간 설정 (1800초 == 30분)
+
+            // OAuth2User 객체 생성
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("email", member1.getEmail());
+
+          String role =  member1.getRole() == Role.USER ? "ROLE_USER" : "ROLE_ADMIN";
+
+            OAuth2User oAuth2User = new DefaultOAuth2User(
+                    Arrays.asList(new SimpleGrantedAuthority(role)),
+                    attributes,
+                    "email");
+
+            // OAuth2AuthenticationToken 생성
+            Authentication auth = new OAuth2AuthenticationToken(oAuth2User, oAuth2User.getAuthorities(), "kakao");
+
+            // SecurityContext에 Authentication 객체 설정
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            securityContext.setAuthentication(auth);
+
+            // 세션에 SecurityContext 저장
+            session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+
+            // 세션 타임아웃 설정 (1800초 == 30분)
             session.setMaxInactiveInterval(60 * 30);
+
             // 로그아웃 시 사용할 카카오토큰 추가
             session.setAttribute("kakaoToken", accessToken);
+
+            log.info("User authenticated and session created: " + session.getId());
         }
 
         return "redirect:/";
     }
+    @GetMapping("/kakao/logout")
+    public String kakaoLogout(HttpSession session) {
+        String accessToken = (String) session.getAttribute("kakaoToken");
+
+        if(accessToken != null && !"".equals(accessToken)){
+            try {
+                oAuthService.kakaoDisconnect(accessToken);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            session.removeAttribute("kakaoToken");
+            session.removeAttribute("loginMember");
+        }else{
+            System.out.println("accessToken is null");
+        }
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/loginInfo")
+    public String memberInfo(Principal principal, ModelMap modelMap){
+        String loginId = principal.getName();
+        Member member = memberRepository.findByEmail(loginId);
+        modelMap.addAttribute("member", member);
+
+        return "mypage/myInfo";
+    }
+
+
+    @GetMapping("/checkPwd")
+    @ResponseBody
+    public boolean checkPwdView(Principal principal,
+                                Member member, @RequestParam String checkPassword,
+                                Model model){
+
+        String loginId = principal.getName();
+        Member memberId = memberRepository.findByEmail(loginId);
+        System.out.println(memberId.getPassword());
+        return memberService.checkPassword(memberId, checkPassword);
+    }
+
+    @GetMapping(value = "/findMember")
+    public String findMember(Model model){
+        return "member/findMemberForm";
+    }
+
+    @Transactional
+    @PostMapping("/sendEmail")
+    public String sendEmail(@RequestParam("memberEmail") String memberEmail){
+        MailDto dto = mailService.createMailAndChangePassword(memberEmail);
+        mailService.mailSend(dto);
+
+        return "member/memberLoginForm";
+    }
+
+    @RequestMapping(value = "/findId", method = RequestMethod.POST)
+    @ResponseBody
+    public String findId(@RequestParam("memberEmail") String memberEmail){
+        String email = String.valueOf(memberRepository.findByEmail(memberEmail).getId());
+        System.out.println("회원 이메일 " + email);
+        if(email == null){
+            return null;
+        } else {
+            return email;
+        }
+//        Member member = memberRepository.findByEmail(memberEmail);
+//        if (member == null) {
+//            return "null";
+//        } else {
+//            return String.valueOf(member.getId());
+//        }
+    }
+
 
 }

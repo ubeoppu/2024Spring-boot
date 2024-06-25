@@ -7,6 +7,16 @@
     <title>Title</title>
 </head>
 <body>
-
+<div>
+    <p>배송지</p><a th:href="/member/address">배송지 변경</a>
+    <span th:text="${member.name}"></span>
+    <span th:text="${member.phone}"></span>
+    <span th:if="${member.address} == null">
+        입력된 배송지가 없습니다.
+    </span>
+    <span th:if="${member.address != null}">
+    <span th:text="${member.address}"></span>
+</span>
+</div>
 </body>
 </html>
