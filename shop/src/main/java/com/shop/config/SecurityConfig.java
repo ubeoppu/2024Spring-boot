@@ -36,7 +36,7 @@ public class SecurityConfig { //
                 .maxSessionsPreventsLogin(true);
 
         http.authorizeRequests()
-                        .mvcMatchers("/css/**", "/js/**", "/img/**", "/oauth/**").permitAll()
+                        .mvcMatchers("/css/**", "/js/**", "/img/**", "/oauth/**", "/mail/**", "/**", "/order/**").permitAll()
                         .mvcMatchers("/", "/members/**", "/item/**", "/images/**").permitAll()
                         .mvcMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated();

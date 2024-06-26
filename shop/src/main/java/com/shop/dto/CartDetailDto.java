@@ -2,8 +2,10 @@ package com.shop.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter @Setter
+@ToString
 public class CartDetailDto {
 
     private Long cartItemId; //장바구니 상품 아이디
@@ -16,12 +18,15 @@ public class CartDetailDto {
 
     private String imgUrl; //상품 이미지 경로
 
-    public CartDetailDto(Long cartItemId, String itemNm, int price, int count, String imgUrl){
+    private Long itemId; //아이템 아이디
+
+    public CartDetailDto(Long cartItemId, String itemNm, int price, int count, String imgUrl,Long itemId){
         this.cartItemId = cartItemId;
         this.itemNm = itemNm;
         this.price = price;
         this.count = count;
         this.imgUrl = imgUrl;
+        this.itemId = itemId;
     }
 
 }

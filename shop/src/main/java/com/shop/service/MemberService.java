@@ -9,9 +9,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
@@ -24,6 +26,7 @@ import java.util.Map;
 public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public Member savaMember(Member member) {
         validdateDuplicatemember(member);
@@ -63,5 +66,17 @@ public class MemberService implements UserDetailsService {
                 attributes,
                 "email"
         );
+    }
+
+    @ResponseBody
+    public boolean checkPassword(Member member, String checkPassword) {
+        Member findMember = memberRepository.findByEmail(member.getEmail());
+        if(findMember == null) {
+            throw new IllegalStateException("없는 회원입니다.");
+        }
+        String realPassword = member.getPassword();
+        boolean matches = passwordEncoder.matches(checkPassword, realPassword);
+        System.out.println(matches);
+        return matches;
     }
 }

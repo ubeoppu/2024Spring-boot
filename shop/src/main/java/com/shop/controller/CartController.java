@@ -63,6 +63,8 @@ public class CartController {
     public String orderHist(Principal principal, Model model) {
         List<CartDetailDto> cartDetailList =
                 cartService.getCartList(principal.getName());
+
+        log.info("cartDetailList: " + cartDetailList);
         model.addAttribute("cartItems" , cartDetailList);
         return "cart/cartList";
     }

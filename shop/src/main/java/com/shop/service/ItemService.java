@@ -1,9 +1,6 @@
 package com.shop.service;
 
-import com.shop.dto.ItemFormDto;
-import com.shop.dto.ItemImgDto;
-import com.shop.dto.ItemSearchDto;
-import com.shop.dto.MainItemDto;
+import com.shop.dto.*;
 import com.shop.entity.Item;
 import com.shop.entity.ItemImg;
 import com.shop.repository.ItemImgRepository;
@@ -15,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -80,6 +76,60 @@ public class ItemService {
         return itemFormDto;
     }
 
+//    public List<ItemFormDto> getListItemDtl(List<Long> itemIds){
+//
+//        List<ItemImg> itemImgList = new ArrayList<>();
+//        for(Long itemId: itemIds){
+//            log.info("--------------itemId---------------------" + itemId);
+//        itemImgList = itemImgRepository.findByItemIdOrderByIdAsc(itemId);
+//        }
+//        log.info("--------------itemImgList-----------------------");
+//        itemImgList.forEach(list-> log.info(list));
+//
+//        List<ItemImgDto> itemImgDtoList = new ArrayList<>();
+//
+//        //ItemImg(상품이미지) -> ItemImgDto 전달
+//        for( ItemImg itemImg: itemImgList){
+//            ItemImgDto itemImgDto = ItemImgDto.ItemImgOfItemImgDto(itemImg);
+//            itemImgDtoList.add(itemImgDto);
+//        }
+//
+//        //Item(상품정보) -> ItemFormDto 전달
+//        List<Item> result = new ArrayList<>();
+//        for(Long itemId: itemIds) {
+//            result = itemRepository.findByIdIn(itemId);
+//            Item item = result.orElseThrow(() -> new EntityNotFoundException());
+//        }
+//        ItemFormDto itemFormDto = ItemFormDto.of(result);
+//        itemFormDto.setItemImgDtoList(itemImgDtoList);
+//
+//        return List<itemFormDto>list;
+//    }
+
+    public List<ItemOrderDto> getItemOrderDto(List<Long>ItemIds,List<Integer> counts){
+        List<ItemOrderDto> itemOrderDtoList = new ArrayList<>();
+
+        for(int i = 0; i<ItemIds.size(); i++){
+        Item item = itemRepository.findById(ItemIds.get(i)).orElseThrow(() -> new EntityNotFoundException("Item not found"));
+        ItemImg img = itemImgRepository.findByItemIdAndRepimgYn(ItemIds.get(i), "Y");
+
+        ItemOrderDto itemOrderDto = new ItemOrderDto();
+        itemOrderDto.setId(item.getId());
+       itemOrderDto.setImgUrl(img.getOriUrl());
+       itemOrderDto.setItemNm(item.getItemNm());
+       itemOrderDto.setPrice(item.getPrice());
+       itemOrderDto.setCount(counts.get(i));
+
+
+
+
+
+        itemOrderDtoList.add(itemOrderDto);
+        }
+        log.info("test"+itemOrderDtoList);
+        return itemOrderDtoList;
+    }
+
     //상품 수정
     public Long updateItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws  Exception{
 
@@ -110,4 +160,6 @@ public class ItemService {
     public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
         return itemRepository.getMainItemPage(itemSearchDto, pageable);
     }
+
+
 }

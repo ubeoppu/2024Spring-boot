@@ -28,6 +28,8 @@ public class Member  extends BaseEntity{
 
     private String password;
 
+    private String phone;
+
     private String address; // 우편번호
 
     private String streetaddress; // 지번 주소

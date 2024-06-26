@@ -6,6 +6,7 @@ import com.shop.dto.MailDto;
 import com.shop.dto.MemberFormDto;
 import com.shop.entity.Member;
 import com.shop.repository.MemberRepository;
+import com.shop.service.MailService;
 import com.shop.service.MemberService;
 import com.shop.service.oAuthService;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,7 @@ public class MemberController {
     private final PasswordEncoder passwordEncoder;
     private final oAuthService oAuthService;
     private final MemberRepository memberRepository;
+    private final MailService mailService;
 
     @GetMapping("/members/new")
     public String newMember(Model model) {
@@ -180,7 +182,7 @@ public class MemberController {
         return "redirect:/";
     }
 
-    @GetMapping("/loginInfo")
+    @GetMapping("/members/loginInfo")
     public String memberInfo(Principal principal, ModelMap modelMap){
         String loginId = principal.getName();
         Member member = memberRepository.findByEmail(loginId);
@@ -232,6 +234,12 @@ public class MemberController {
 //        } else {
 //            return String.valueOf(member.getId());
 //        }
+    }
+
+    @GetMapping("/members/address")
+    public String addressChange(Model model){
+
+        return null;
     }
 
 

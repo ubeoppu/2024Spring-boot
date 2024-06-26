@@ -56,7 +56,7 @@ public class CartService {
         //장바구니 상품 존재 여부 ?
         log.info("아니면 여기가?..");
         CartItem savedCartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
-log.info("도달 합니까?2");
+log.info("카트아이템값" + savedCartItem);
         if(savedCartItem != null){
             savedCartItem.addCount(cartItemDto.getCount());
             return savedCartItem.getId();
@@ -65,6 +65,7 @@ log.info("도달 합니까?2");
                     CartItem.createCartItem(cart, item, cartItemDto.getCount());
 
             log.info("도달 하냐?3");
+            log.info("cartItem값:" + cartItem);
             cartItemRepository.save(cartItem);
 
             return cartItem.getId();

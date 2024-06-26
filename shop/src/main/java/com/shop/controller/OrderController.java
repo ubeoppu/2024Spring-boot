@@ -1,7 +1,12 @@
 package com.shop.controller;
 
+import com.shop.dto.ItemOrderDto;
 import com.shop.dto.OrderDto;
 import com.shop.dto.OrderHistDto;
+import com.shop.entity.Member;
+import com.shop.repository.MemberRepository;
+import com.shop.service.ItemService;
+import com.shop.service.MemberService;
 import com.shop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -27,6 +32,9 @@ import java.util.Optional;
 public class OrderController {
 
     private final OrderService orderService;
+    private final MemberService memberService;
+    private final MemberRepository memberRepository;
+    private final ItemService itemService;
 
     @PostMapping(value = "/order")
     public @ResponseBody ResponseEntity order(@RequestBody @Valid OrderDto orderDto,
@@ -86,5 +94,24 @@ public class OrderController {
 
         orderService.cancelOrder(orderId);
         return new ResponseEntity<Long>(orderId,HttpStatus.OK);
+    }
+
+    @GetMapping("/order/orderDtl")
+    public String orderDtl(@RequestParam("itemId")List<Long>itemIds,@RequestParam("count")List<Integer>counts ,Model model, Principal principal){
+        log.info("작동 여부 확인");
+        log.info("count:" + counts);
+        log.info("itemIds"+itemIds);
+        List<ItemOrderDto>itemOrderDtoList = itemService.getItemOrderDto(itemIds, counts);
+        for(ItemOrderDto itemOrderDto:itemOrderDtoList){
+            log.info("itemOrderDto:" + itemOrderDto);
+
+        }
+
+         Member member = memberRepository.findByEmail(principal.getName());
+         log.info("member" + member);
+        model.addAttribute("member", member);
+        model.addAttribute("items", itemOrderDtoList);
+
+        return "order/orderDtl";
     }
 }

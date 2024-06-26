@@ -197,7 +197,7 @@
     <h2 class="mb-4">
         장바구니 목록
     </h2>
-
+    <form th:action="@{/order/orderDtl}" method="get">
     <div>
 
         <table class="table">
@@ -216,6 +216,7 @@
             </tr>
             </thead>
             <tbody>
+
             <tr th:each="cartItem : ${cartItems}">
                 <td class="text-center align-middle">
                     <input type="checkbox" name="cartChkBox" th:value="${cartItem.cartItemId}">
@@ -243,11 +244,13 @@
                     </div>
                 </td>
                 <td class="text-center align-middle">
+                    <input type="text" name="itemId" th:value="${cartItem.itemId}">
                     <span th:id="'totalPrice_' + ${cartItem.cartItemId}"
                           name="totalPrice" th:text="${cartItem.price * cartItem.count} + '원'">
                     </span>
                 </td>
             </tr>
+
             </tbody>
         </table>
 
@@ -256,11 +259,12 @@
         </h2>
 
         <div class="text-center mt-3">
-            <button type="button" class="btn btn-primary btn-lg" onclick="orders()">주문하기</button>
+
+            <button type="submit" class="btn btn-primary btn-lg" >주문하기</button>
         </div>
 
     </div>
-
+    </form>
 </div>
 
 </html>
