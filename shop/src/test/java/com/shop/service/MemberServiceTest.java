@@ -2,14 +2,13 @@ package com.shop.service;
 
 import com.shop.dto.MemberFormDto;
 import com.shop.entity.Member;
+import com.shop.repository.MemberRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Log4j2
 class MemberServiceTest {
@@ -19,6 +18,8 @@ class MemberServiceTest {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    private MemberRepository memberRepository;
 
     public Member createMember(){
         MemberFormDto memberFormDto = MemberFormDto.builder()
@@ -30,6 +31,7 @@ class MemberServiceTest {
 
         return Member.createMember(memberFormDto,passwordEncoder);
     }
+
 
     @Test
     @DisplayName("회원 가입 테스트")

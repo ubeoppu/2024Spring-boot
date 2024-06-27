@@ -4,6 +4,8 @@ import com.shop.constant.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,10 +25,12 @@ public class Order extends BaseEntity {
 
     @ManyToOne //다대일 관계
     @JoinColumn(name = "member_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member; //멤버는 주문을 여러개 가질 수 있다.
 
     @OneToMany(mappedBy = "order" ,cascade = CascadeType.ALL
             ,orphanRemoval = true, fetch = FetchType.LAZY)  //외래키 설정 하지않는다.
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     private LocalDateTime orderDate;   //주문일

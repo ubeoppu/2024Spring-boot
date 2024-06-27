@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout1}">
+      layout:decorate="~{layouts/layout2}">
 <th:block layout:fragment="css">
     <style>
         .carousel-inner > .item {
@@ -11,38 +11,123 @@
         a:hover{
             text-decoration:none;
         }
+
+        #addressComponent{
+            padding: 30px;
+            height:400px;
+            width:1000px;
+            margin: auto;
+            background: aqua;
+            margin-bottom: 20px;
+        }
+        #itemHeader{
+            width: 1000px;
+            height: 50px;
+            background: aquamarine;
+            margin: auto;
+
+        }
+        p{
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+       #addressComponent > #addChn{
+            text-align: right;
+        }
+
+       #itemInfoComponent{
+           padding: 30px;
+           height:330px;
+           width:1000px;
+           margin: auto;
+           background: beige;
+           margin-bottom: 30px;
+       }
+
+       .orderMenu{
+           all: unset;
+       }
+
+       .scroll-area{
+           overflow-y: scroll;
+           height: 1164px;
+       }
+
+       img{
+           width: 150px;
+           height: 150px;
+       }
+       #final{
+           padding: 30px;
+           height:300px;
+           width:1000px;
+           margin: auto;
+           background: cornflowerblue;
+       }
+       #orderpay{
+           cursor: pointer;
+           border-radius: 5px;
+           background: black;
+           color: white;
+           width: 400px;
+           height: 50px;
+           font-weight: bold;
+           font-size: 19px;
+       }
+
     </style>
 </th:block>
 
 <div layout:fragment="content">
+<div class="scroll-area1">
+    <div id="addressComponent">
 
-    <div>
-  <p>배송지</p><a href="/members/address">배송지 변경</a>
-    <span th:text="${member.name}"></span>
+
+        <p>배송지</p>
+        <span th:text="${member.name}"></span><br>
+        <a href="/members/address" id="addChn">배송지 변경</a>
 <!--    <span th:text="${member.phone}"></span>-->
     <span th:if="${member.address} == null">
-        입력된 배송지가 없습니다.
+        입력된 배송지가 없습니다. 배송지를 등록해주세요.
     </span>
     <span th:if="${member.address != null}">
     <span th:text="${member.address}"></span>
+         </span><br>
     <select name="deliveryMessage">
         <option value="부재 시 집 앞에 놔주세요">부재 시 집 앞에 놔주세요</option>
         <option value="배송 시 요청사항을 선택해주세요">배송 시 요청사항을 선택해주세요</option>
         <option value="부재 시 경비실에 맡겨주세요">부재 시 경비실에 맡겨주세요</option>
         <option value="부재 시 택배함에 넣어주세요">부재 시 택배함에 넣어주세요</option>
         <option value="배송 전 연락바랍니다">배송 전 연락바랍니다</option>
-        <option value="직접 입력">테스트</option>
+        <option value="TEXT">테스트</option>
     </select>
-    </span>
+
     </div>
-    <div>
-    <p>상품 정보</p>
+    <div id="itemHeader"><p>상품 정보</p></div>
     <span th:each="item : ${items}">
-        <span th:text="${item.itemNm}"/><br>
+    <div id="itemInfoComponent">
+
+<img th:src="${item.imgUrl}" th:alt="${item.itemNm}">
+        <span th:text="${item.itemNm}"/>
         <span th:text="'수량'+ ${item.count} +'개'"/><br>
-        <img th:src="${item.imgUrl}" th:alt="${item.itemNm}">
-<span th:text="${item.price}"></span>
-    </span>
+
+<span th:text="${item.price}+'원'"></span>
+
     </div>
+        </span>
+
+    <div id="final">
+        <p>최종 결제 금액</p><br>
+
+
+        <input type="text" value="상품금액" class="orderMenu"> <span th:text="${allPrice}"></span><br>
+        <input type="text" value="배송비" class="orderMenu"><span th:text="3000"></span><br>
+        <input type="text" value="결제 금액" class="orderMenu"><span th:text="${allPrice + 3000}"></span><br>
+
+        <button type="button" id="orderpay">결제</button>
+
+    </div>
+</div>
 </div>
 </html>

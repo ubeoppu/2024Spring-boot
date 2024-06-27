@@ -5,6 +5,8 @@ import com.shop.entity.Item;
 import lombok.*;
 import org.modelmapper.ModelMapper;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class ItemFormDto {
     @NotNull(message = "재고는 필수 입력 값입니다.")
     private Integer stockNumber;
 
+    @Enumerated(EnumType.STRING)//열거형 타입.. 상수 그룹화
     private ItemSellStatus itemSellStatus;
 
     private List<ItemImgDto> itemImgDtoList = new ArrayList<>();

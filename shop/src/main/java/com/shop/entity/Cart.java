@@ -3,6 +3,8 @@ package com.shop.entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -21,6 +23,7 @@ public class Cart extends BaseEntity {
     //하나의 멤버는 하나의 카트를 가질 수 있다.
     @OneToOne(fetch = FetchType.LAZY) //일대일 관계 매핑
     @JoinColumn(name = "member_id")//연관된 컬럼
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member; //연관된 entity..즉 테이블
 
 

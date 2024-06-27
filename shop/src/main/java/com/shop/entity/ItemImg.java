@@ -3,6 +3,8 @@ package com.shop.entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -26,6 +28,7 @@ public class ItemImg extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)   //외래키 설정
     @JoinColumn(name="item_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Item item;
     
     public void updateItemImg(String oriImgName, String imgName, String oriUrl) {

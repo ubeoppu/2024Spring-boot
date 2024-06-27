@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
-import java.io.IOException;
 
 @Service
 @Transactional
@@ -30,6 +29,8 @@ public class ItemImgService {
         String oriImgName = itemImgFile.getOriginalFilename();
         String imgName = "";
         String imgUrl = "";
+
+        log.info("itemImg서비스: " + itemImg);
 
         //파일 업로드
         if(!StringUtils.isEmpty(oriImgName)){

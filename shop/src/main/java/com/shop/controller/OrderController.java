@@ -111,6 +111,8 @@ public class OrderController {
          log.info("member" + member);
         model.addAttribute("member", member);
         model.addAttribute("items", itemOrderDtoList);
+        int allPrice = itemOrderDtoList.stream().mapToInt(dto -> dto.getPrice()).sum();
+        model.addAttribute("allPrice", allPrice);
 
         return "order/orderDtl";
     }
