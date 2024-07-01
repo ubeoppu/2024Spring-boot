@@ -1,6 +1,8 @@
 package com.shop.entity;
 
 import com.shop.constant.ItemSellStatus;
+import com.shop.constant.ItemSize;
+import com.shop.constant.ItemType;
 import com.shop.dto.ItemFormDto;
 import com.shop.exception.OutOfStockException;
 import lombok.Getter;
@@ -34,8 +36,35 @@ public class Item extends BaseEntity {
     @Column(nullable = false)
     private String itemDetail;
 
+    //sale퍼센트
+    private int sale;
+
+    //현재 평점
+    private float rating;
+    //평점 참여한 인원 수
+    private int ratingCount;
+
     @Enumerated(EnumType.STRING)//열거형 타입.. 상수 그룹화
     private ItemSellStatus itemSellStatus; //Order, Cancel
+
+    //Ex:ItemSize: XL, L, M
+    @Enumerated(EnumType.STRING)
+    private ItemSize itemSize;
+
+    @Enumerated(EnumType.STRING)
+    private ItemType itemType;
+
+    public void updateRating(float rating){ //평점 계산...
+        float tmpRating = this.rating * this.ratingCount;
+        this.ratingCount++;
+        this.rating = tmpRating + rating / this.ratingCount;
+    }
+
+    public void deleteRating(float rating){
+        float tmpRating = this.rating * this.ratingCount;
+        this.ratingCount--;
+        this.rating = tmpRating - rating / this.ratingCount;
+    }
 
     public void updateItem(ItemFormDto itemFormDto){
         this.itemNm = itemFormDto.getItemNm();
@@ -44,6 +73,8 @@ public class Item extends BaseEntity {
         this.itemDetail = itemFormDto.getItemDetail();
         this.itemSellStatus = itemFormDto.getItemSellStatus();
     }
+
+
 
     //상품 재고 수량 변경
     public void removeStock(int stockNumber){

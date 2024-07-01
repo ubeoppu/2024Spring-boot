@@ -36,6 +36,10 @@ public class ItemFormDto {
     @Enumerated(EnumType.STRING)//열거형 타입.. 상수 그룹화
     private ItemSellStatus itemSellStatus;
 
+    private float rating;
+
+    private int ratingCount;
+
     private List<ItemImgDto> itemImgDtoList = new ArrayList<>();
 
     private List<Long> itemImgIds = new ArrayList<>();
