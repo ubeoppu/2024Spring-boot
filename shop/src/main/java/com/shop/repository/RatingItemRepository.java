@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface RatingItemRepository extends JpaRepository<RatingItem, Long> {
 
-    public int getCountByRatingId(Long ratingId);
 
     @Query("select r from RatingItem r WHERE r.member = :memberId")
     RatingItem findByMemberId(Long memberId);

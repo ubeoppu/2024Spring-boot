@@ -20,14 +20,14 @@ public class RatingService {
     private final MemberRepository memberRepository;
     private Item item;
 
-    private void saveRating(RatingItem ratingItem) {
+    public void saveRating(RatingItem ratingItem) {
        float rating = ratingItem.getRating();
         ratingItemRepository.save(ratingItem);
 
         item.updateRating(rating);
     }
 
-    private void deleteRating(String member_email) {
+    public void deleteRating(String member_email) {
         Member member = memberRepository.findByEmail(member_email);
         RatingItem ratingItem = ratingItemRepository.findByMemberId(member.getId());
         log.info("ratingItem:" + ratingItem);

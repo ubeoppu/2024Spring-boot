@@ -1,5 +1,7 @@
 package com.shop.service;
 
+import com.shop.entity.Member;
+import com.shop.entity.WishItem;
 import com.shop.repository.MemberRepository;
 import com.shop.repository.WishItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,16 @@ public class WishService {
     private final WishItemRepository wishItemRepository;
     private final MemberRepository memberRepository;
 
-    public
+    public void saveWishItem(WishItem wishItem) {
+        log.info("saveWishItem method 작동...");
+        wishItemRepository.save(wishItem);
+    }
+
+    public void deleteWishItem(String email) {
+        Member member = memberRepository.findByEmail(email);
+        log.info("deleteWishItem method 작동...");
+        WishItem wishItem = wishItemRepository.findByMemberId(member.getId());
+        wishItemRepository.delete(wishItem);
+    }
 
 }
