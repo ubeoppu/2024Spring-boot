@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,6 +116,23 @@ log.info("카트아이템값" + savedCartItem);
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(EntityNotFoundException::new);
         cartItemRepository.delete(cartItem);
+    }
+
+    public void countCartItem(Long cartId){
+        int countCartItem = cartItemRepository.countCartItemById(cartId);
+        log.info("countCartItem:" + countCartItem);
+    }
+
+    public int getCartCount(Principal principal){
+        int countCart = 0;
+        if(principal != null) {
+            Member member = memberRepository.findByEmail(principal.getName());
+            Cart cart = cartRepository.findByMemberId(member.getId());
+            if(cart != null){
+            countCart = cartItemRepository.countCartItemById(cart.getId());
+            }
+        }
+        return countCart;
     }
 
     /*

@@ -2,19 +2,25 @@ package com.shop.entity;
 
 import com.shop.constant.ItemSize;
 import com.shop.exception.OutOfStockException;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
 @Entity
+@Getter@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class ItemSizeStockNumber {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="item_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     Item item;
@@ -40,6 +46,5 @@ public class ItemSizeStockNumber {
     public void addStock(int stockNumber) {
         int restStock = this.stockNumber + stockNumber;
     }
-
 
 }

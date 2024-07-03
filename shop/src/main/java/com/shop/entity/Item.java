@@ -44,8 +44,6 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING)//열거형 타입.. 상수 그룹화
     private ItemSellStatus itemSellStatus; //Order, Cancel
 
-
-
     //상의 하의 가방 기타
     @Enumerated(EnumType.STRING)
     private ItemType itemType;
@@ -85,8 +83,9 @@ public class Item extends BaseEntity {
 //    }
 
     //상품 재고 취소시
-//    public void addStock(int stockNumber){
-//        int restStock = this.stockNumber += stockNumber;
-//    }
+    public void addStock(int stockNumber, String itemSize){
+        ItemSizeStockNumber itemSizeStockNumber = new ItemSizeStockNumber();
+        itemSizeStockNumber.addStock(stockNumber);
+    }
 
 }

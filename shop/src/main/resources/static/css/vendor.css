@@ -255,13 +255,14 @@ body.chocolat-open > .chocolat-image-wrapper {
     width: 100%;
     height: 550px;
     margin-top: 92px;
-    margin-bottom: 100px;
+    margin-bottom: 65px;
 }
 
 .py-4 {
     padding-top: 1.5rem !important;
     padding-bottom: 1.5rem !important;
     background-color: white;
+    font-weight: bold;
 }
 
 #imageBanner {

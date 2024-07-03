@@ -1,6 +1,5 @@
 package com.shop.service;
 
-import com.shop.constant.OrderStatus;
 import com.shop.dto.OrderDto;
 import com.shop.entity.Item;
 import com.shop.entity.Member;
@@ -52,7 +51,6 @@ public class OrderServiceTest {
     public void cancelOrder(){
         Item item = new Item();
         item.setId(2L);
-        item.setStockNumber(50);
         Member member = new Member();
 member.setEmail("test@naver.com")
 ;

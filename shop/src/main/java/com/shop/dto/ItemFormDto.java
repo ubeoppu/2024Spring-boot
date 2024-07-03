@@ -1,6 +1,8 @@
 package com.shop.dto;
 
 import com.shop.constant.ItemSellStatus;
+import com.shop.constant.ItemSize;
+import com.shop.constant.ItemType;
 import com.shop.entity.Item;
 import lombok.*;
 import org.modelmapper.ModelMapper;
@@ -30,8 +32,26 @@ public class ItemFormDto {
     @NotBlank(message = "상품 상세는 필수 입력 값입니다.")
     private String itemDetail;
 
-    @NotNull(message = "재고는 필수 입력 값입니다.")
-    private Integer stockNumber;
+//    @NotNull(message = "재고는 필수 입력 값입니다.")
+//    private Integer stockNumber;
+    @NotNull(message="상품 종류는 필수 입력 값입니다.")
+    @Enumerated(EnumType.STRING)//열거형 타입
+    private ItemType itemType;
+
+    private String itemTypeDetail;
+
+    @Enumerated(EnumType.STRING)
+    private ItemSize itemSize;
+
+    private int sizeXXL;
+
+    private int sizeXL;
+
+    private int sizeL;
+
+    private int sizeM;
+
+    private int sizeS;
 
     @Enumerated(EnumType.STRING)//열거형 타입.. 상수 그룹화
     private ItemSellStatus itemSellStatus;

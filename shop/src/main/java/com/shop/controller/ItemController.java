@@ -2,8 +2,10 @@ package com.shop.controller;
 
 import com.shop.dto.ItemFormDto;
 import com.shop.dto.ItemSearchDto;
+import com.shop.dto.ItemSizeStockDto;
 import com.shop.entity.Item;
 import com.shop.service.ItemService;
+import com.shop.service.ItemSizeStockService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,8 +29,12 @@ public class ItemController {
 
     private final ItemService itemService;
 
-    public ItemController(ItemService itemService) {
+    private final ItemSizeStockService itemSizeStockService;
+
+
+    public ItemController(ItemService itemService, ItemSizeStockService itemSizeStockService) {
         this.itemService = itemService;
+        this.itemSizeStockService = itemSizeStockService;
     }
 
     @GetMapping("/admin/item/new")
@@ -40,6 +46,9 @@ public class ItemController {
    @PostMapping("/admin/item/new")
    public String ItemNew(@Valid ItemFormDto itemFormDto, BindingResult bindingResult,
                          Model model, @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList){
+        log.info("작동");
+        log.info("ItemFormDto: " + itemFormDto);
+        
 
         if(bindingResult.hasErrors()){
             return "item/itemForm";
@@ -132,11 +141,16 @@ public class ItemController {
    public String itemDtl2(@PathVariable("itemId") Long itemId, Model model){
 
        ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
+       List<ItemSizeStockDto> itemSizeStockNumber = itemSizeStockService.getItemSizeStockNumber(itemId);
+       log.info(itemSizeStockNumber);
+
+
        log.info("-------------------itemDtl2-----------------------------");
        log.info("itemFormDto 값입니다...:"+itemFormDto);
        log.info("----------------------------------------------------");
        log.info(itemFormDto.getItemImgDtoList().get(0).getImgUrl());
 
+       model.addAttribute("sizeStockNumbers", itemSizeStockNumber);
        model.addAttribute("item", itemFormDto);
        return "item/itemDtl";
    }

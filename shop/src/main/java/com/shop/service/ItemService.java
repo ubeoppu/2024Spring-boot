@@ -1,10 +1,13 @@
 package com.shop.service;
 
+import com.shop.constant.ItemSize;
 import com.shop.dto.*;
 import com.shop.entity.Item;
 import com.shop.entity.ItemImg;
+import com.shop.entity.ItemSizeStockNumber;
 import com.shop.repository.ItemImgRepository;
 import com.shop.repository.ItemRepository;
+import com.shop.repository.ItemSizeStockNumberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -26,14 +29,62 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final ItemImgService itemImgService;
+    private final ItemSizeStockNumberRepository stockNumberRepository;
     private final ItemImgRepository itemImgRepository;
     private final FileService fileService;
 
     public Long saveItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws  Exception{
-
+        log.info("itemFormDto:" + itemFormDto);
         //상품 등록
         Item item = itemFormDto.createItem();
         itemRepository.save(item);
+        Item findItem = itemRepository.findItemByItemNm(item.getItemNm());
+        int XXL= itemFormDto.getSizeXXL();
+        int XL= itemFormDto.getSizeXL();
+        int L= itemFormDto.getSizeL();
+        int M= itemFormDto.getSizeM();
+        int S= itemFormDto.getSizeS();
+        Long itemId = findItem.getId();
+        log.info("itemId:" + itemId);
+         //XXL
+        ItemSizeStockNumber itemSizeStockNumber = ItemSizeStockNumber.builder()
+                .itemSize(ItemSize.XXL)
+                .item(findItem)
+                .stockNumber(XXL)
+                .build();
+        stockNumberRepository.save(itemSizeStockNumber);
+
+        //XL
+        ItemSizeStockNumber itemSizeStockNumber1 = ItemSizeStockNumber.builder()
+                .itemSize(ItemSize.XL)
+                .item(findItem)
+                .stockNumber(XL)
+                .build();
+        stockNumberRepository.save(itemSizeStockNumber1);
+
+        //L
+        ItemSizeStockNumber itemSizeStockNumber2 = ItemSizeStockNumber.builder()
+                .itemSize(ItemSize.L)
+                .item(findItem)
+                .stockNumber(L)
+                .build();
+        stockNumberRepository.save(itemSizeStockNumber2);
+
+        //M
+        ItemSizeStockNumber itemSizeStockNumber3 = ItemSizeStockNumber.builder()
+                .itemSize(ItemSize.M)
+                .item(findItem)
+                .stockNumber(M)
+                .build();
+        stockNumberRepository.save(itemSizeStockNumber3);
+
+        //S
+        ItemSizeStockNumber itemSizeStockNumber4 = ItemSizeStockNumber.builder()
+                .itemSize(ItemSize.S)
+                .item(findItem)
+                .stockNumber(S)
+                .build();
+        stockNumberRepository.save(itemSizeStockNumber4);
 
         //이미지등록
         for(int i=0; i<itemImgFileList.size(); i++){
@@ -158,6 +209,7 @@ public class ItemService {
     //메인 페이지
     @Transactional(readOnly = true)
     public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        log.info("ItemSearchDto"+  itemSearchDto );
         return itemRepository.getMainItemPage(itemSearchDto, pageable);
     }
 

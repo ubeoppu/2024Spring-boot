@@ -30,6 +30,7 @@ public class OrderItem extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Item item;
 
+
     private int orderPrice; //가격
     private int count; //  수량
 
@@ -42,7 +43,9 @@ public class OrderItem extends BaseEntity {
 
         orderItem.setOrderPrice(item.getPrice());
 
-        item.removeStock(count);
+        ItemSizeStockNumber itemSizeStockNumber = new ItemSizeStockNumber();
+        itemSizeStockNumber.removeStock(count);
+
 
         return orderItem;
     }
@@ -51,6 +54,5 @@ public class OrderItem extends BaseEntity {
     }
 
     public void cancel(){
-        this.getItem().addStock(count);
     }
 }
