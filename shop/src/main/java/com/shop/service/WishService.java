@@ -1,6 +1,5 @@
 package com.shop.service;
 
-import com.shop.entity.Member;
 import com.shop.entity.WishItem;
 import com.shop.repository.MemberRepository;
 import com.shop.repository.WishItemRepository;
@@ -22,9 +21,8 @@ public class WishService {
     }
 
     public void deleteWishItem(String email) {
-        Member member = memberRepository.findByEmail(email);
         log.info("deleteWishItem method 작동...");
-        WishItem wishItem = wishItemRepository.findByMemberId(member.getId());
+        WishItem wishItem = wishItemRepository.findByMemberEmail(email);
         wishItemRepository.delete(wishItem);
     }
 

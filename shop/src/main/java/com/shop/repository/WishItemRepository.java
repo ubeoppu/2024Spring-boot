@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface WishItemRepository extends JpaRepository<WishItem, Long> {
 
-    @Query("select w from WishItem w where w.member = :memberId")
-    WishItem findByMemberId(Long memberId);
+    @Query("select w from WishItem w where w.member.email = :email")
+    WishItem findByMemberEmail(String email);
 }
