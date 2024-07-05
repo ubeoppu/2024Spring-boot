@@ -1,5 +1,5 @@
-import{Button} from '@mui/base';
-import {Grid, TextField} from '@mui/material';
+// import{Button} from '@mui/base';
+import {Grid, TextField,Button} from '@mui/material';
 import React, {useState} from 'react';
 
 const AddTodo = (props) => {
@@ -14,12 +14,22 @@ const AddTodo = (props) => {
 
     const onButtonClick = () => {
         addItem(item)
+        setItem({"title":""});
     }
+
+    const enterKeyEventHandler = (e) => {
+		if(e.key === 'Enter'){
+			onButtonClick();
+		}
+	}
 
     return (
         <Grid container style={{marginTop:20}}>
             <Grid xs={11} md={11} item style={{paddingRight: 16}}>
-                <TextField placeholder='Add Todo here' fullWidth onChange={onInputChange}/>
+                <TextField placeholder='Add Todo here' fullWidth 
+                onChange={onInputChange}
+                onKeyDown={enterKeyEventHandler}
+                value={item.title}/>
             </Grid>
 
             <Grid xs={1} md={1} item>
@@ -29,7 +39,7 @@ const AddTodo = (props) => {
             </Grid>
 
         </Grid>
-    )
+    );
 
-}
+};
 export default AddTodo;
