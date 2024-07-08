@@ -5,6 +5,7 @@ import com.shop.dto.*;
 import com.shop.entity.Item;
 import com.shop.entity.ItemImg;
 import com.shop.entity.ItemSizeStockNumber;
+import com.shop.repository.CartItemRepository;
 import com.shop.repository.ItemImgRepository;
 import com.shop.repository.ItemRepository;
 import com.shop.repository.ItemSizeStockNumberRepository;
@@ -32,6 +33,7 @@ public class ItemService {
     private final ItemSizeStockNumberRepository stockNumberRepository;
     private final ItemImgRepository itemImgRepository;
     private final FileService fileService;
+    private final CartItemRepository cartItemRepository;
 
     public Long saveItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws  Exception{
         log.info("itemFormDto:" + itemFormDto);
@@ -157,7 +159,7 @@ public class ItemService {
 //        return List<itemFormDto>list;
 //    }
 
-    public List<ItemOrderDto> getItemOrderDto(List<Long>ItemIds,List<Integer> counts){
+    public List<ItemOrderDto> getItemOrderDto(List<Long>ItemIds,List<Integer> counts, List<ItemSize> itemSizes){
         List<ItemOrderDto> itemOrderDtoList = new ArrayList<>();
 
         for(int i = 0; i<ItemIds.size(); i++){
@@ -169,6 +171,7 @@ public class ItemService {
        itemOrderDto.setImgUrl(img.getOriUrl());
        itemOrderDto.setItemNm(item.getItemNm());
        itemOrderDto.setPrice(item.getPrice());
+       itemOrderDto.setItemSize(itemSizes.get(i));
        itemOrderDto.setCount(counts.get(i));
 
 

@@ -1,5 +1,6 @@
 package com.shop.dto;
 
+import com.shop.constant.ItemSize;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,4 +21,6 @@ public class OrderDto {
 
     @Max(value = 99, message="최대 주문수량은 99개 입니다.")
     private int count;
+
+    private ItemSize itemSize;
 }

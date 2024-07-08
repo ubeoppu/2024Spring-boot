@@ -40,7 +40,6 @@ public class ItemFormDto {
 
     private String itemTypeDetail;
 
-    @Enumerated(EnumType.STRING)
     private ItemSize itemSize;
 
     private int sizeXXL;

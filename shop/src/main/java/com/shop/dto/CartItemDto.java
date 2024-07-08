@@ -1,5 +1,6 @@
 package com.shop.dto;
 
+import com.shop.constant.ItemSize;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,6 +18,8 @@ public class CartItemDto {
 
     @Min(value = 1, message = "최소 1개 이상 담아주세요.")
     private int count;
+
+    private ItemSize itemSize;
 
 
 }

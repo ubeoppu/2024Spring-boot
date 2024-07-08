@@ -1,5 +1,6 @@
 package com.shop.dto;
 
+import com.shop.constant.ItemSize;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,13 +21,16 @@ public class CartDetailDto {
 
     private Long itemId; //아이템 아이디
 
-    public CartDetailDto(Long cartItemId, String itemNm, int price, int count, String imgUrl,Long itemId){
+    private ItemSize itemSize;
+
+    public CartDetailDto(Long cartItemId, String itemNm, int price, int count, String imgUrl,Long itemId, ItemSize itemSize){
         this.cartItemId = cartItemId;
         this.itemNm = itemNm;
         this.price = price;
         this.count = count;
         this.imgUrl = imgUrl;
         this.itemId = itemId;
+        this.itemSize = itemSize;
     }
 
 }

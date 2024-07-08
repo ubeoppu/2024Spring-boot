@@ -32,9 +32,9 @@ public class Member  extends BaseEntity{
 
     private String address; // 우편번호
 
-    private String streetaddress; // 지번 주소
+    private String streetAddress; // 지번 주소
 
-    private String detailaddress;  // 상세 주소
+    private String detailAddress;  // 상세 주소
 
     @Enumerated(EnumType.STRING) //열거형 타입을 뜻함, 상수들의 지합
     //Ex:Role { 'Admin', 'Member'}

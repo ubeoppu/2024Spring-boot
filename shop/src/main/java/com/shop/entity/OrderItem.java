@@ -1,5 +1,6 @@
 package com.shop.entity;
 
+import com.shop.constant.ItemSize;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -32,9 +33,11 @@ public class OrderItem extends BaseEntity {
 
 
     private int orderPrice; //가격
-    private int count; //  수량
+    private int count; //  구매 할 수량
 
-    public static OrderItem createOrderItem(Item item, int count) {
+    private ItemSize itemSize;//고른 사이즈
+
+    public static OrderItem createOrderItem(Item item, int count, ItemSize itemSize) {
         OrderItem orderItem = new OrderItem();
 
         orderItem.setItem(item);
@@ -46,6 +49,7 @@ public class OrderItem extends BaseEntity {
         ItemSizeStockNumber itemSizeStockNumber = new ItemSizeStockNumber();
         itemSizeStockNumber.removeStock(count);
 
+        orderItem.setItemSize(itemSize);
 
         return orderItem;
     }

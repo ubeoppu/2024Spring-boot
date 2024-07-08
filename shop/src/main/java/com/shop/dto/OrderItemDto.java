@@ -1,5 +1,6 @@
 package com.shop.dto;
 
+import com.shop.constant.ItemSize;
 import com.shop.entity.OrderItem;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +12,7 @@ public class OrderItemDto {
     private int count;
     private int orderPrice;
     private String imgUrl; //상품 이미지 경로
+    private ItemSize itemSize;
 
 
     public OrderItemDto(OrderItem orderItem, String imgUrl) {
@@ -18,6 +20,6 @@ public class OrderItemDto {
         this.count = orderItem.getCount();
         this.imgUrl = imgUrl;
         this.orderPrice = orderItem.getOrderPrice();
-
+        this.itemSize = orderItem.getItemSize();
     }
 }

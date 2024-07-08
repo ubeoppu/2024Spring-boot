@@ -63,7 +63,7 @@ log.info("카트아이템값" + savedCartItem);
             return savedCartItem.getId();
         }else{
             CartItem cartItem =
-                    CartItem.createCartItem(cart, item, cartItemDto.getCount());
+                    CartItem.createCartItem(cart, item, cartItemDto.getCount(),cartItemDto.getItemSize());
 
             log.info("도달 하냐?3");
             log.info("cartItem값:" + cartItem);

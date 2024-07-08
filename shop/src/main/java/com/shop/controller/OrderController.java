@@ -1,8 +1,7 @@
 package com.shop.controller;
 
-import com.shop.dto.ItemOrderDto;
-import com.shop.dto.OrderDto;
-import com.shop.dto.OrderHistDto;
+import com.shop.constant.ItemSize;
+import com.shop.dto.*;
 import com.shop.entity.Member;
 import com.shop.repository.MemberRepository;
 import com.shop.service.ItemService;
@@ -96,12 +95,27 @@ public class OrderController {
         return new ResponseEntity<Long>(orderId,HttpStatus.OK);
     }
 
+    @GetMapping("/order/cartOrderDtl")
+    public String cartOrderDtl (@RequestParam("cartItemId")List<Long>cartItemId, Model model, Principal principal){
+        log.info("cartItemId:Line100:" + cartItemId);
+        List<ItemOrderDto> itemOrderDtoList = orderService.getCartItemDtos(cartItemId);
+        Member member = memberRepository.findByEmail(principal.getName());
+        log.info("orderItemDtoList:Line102:" + itemOrderDtoList);
+        int allPrice = itemOrderDtoList.stream().mapToInt(dto -> dto.getPrice() * dto.getCount()).sum();
+
+        log.info("allPrice:" + allPrice);
+        model.addAttribute("items", itemOrderDtoList);
+        model.addAttribute("member", member);
+        model.addAttribute("allPrice", allPrice);
+        return "order/orderDtl";
+    }
+
     @GetMapping("/order/orderDtl")
-    public String orderDtl(@RequestParam("itemId")List<Long>itemIds,@RequestParam("count")List<Integer>counts ,Model model, Principal principal){
+    public String orderDtl(@RequestParam("itemId")List<Long>itemIds, @RequestParam("count")List<Integer>counts, @RequestParam("itemSize")List<ItemSize>itemSizes , Model model, Principal principal){
         log.info("작동 여부 확인");
         log.info("count:" + counts);
-        log.info("itemIds"+itemIds);
-        List<ItemOrderDto>itemOrderDtoList = itemService.getItemOrderDto(itemIds, counts);
+        log.info("it    emIds"+itemIds);
+        List<ItemOrderDto>itemOrderDtoList = itemService.getItemOrderDto(itemIds, counts, itemSizes);
         for(ItemOrderDto itemOrderDto:itemOrderDtoList){
             log.info("itemOrderDto:" + itemOrderDto);
 
@@ -109,9 +123,11 @@ public class OrderController {
 
          Member member = memberRepository.findByEmail(principal.getName());
          log.info("member" + member);
+         log.info("아이템 오더리스트:"+ itemOrderDtoList);
         model.addAttribute("member", member);
         model.addAttribute("items", itemOrderDtoList);
-        int allPrice = itemOrderDtoList.stream().mapToInt(dto -> dto.getPrice()).sum();
+        int allPrice = itemOrderDtoList.stream().mapToInt(dto -> dto.getPrice() * dto.getCount()).sum();
+//        log.info("allPrice:" + allPrice);
         model.addAttribute("allPrice", allPrice);
 
         return "order/orderDtl";

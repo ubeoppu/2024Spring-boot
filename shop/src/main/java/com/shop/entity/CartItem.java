@@ -1,5 +1,6 @@
 package com.shop.entity;
 
+import com.shop.constant.ItemSize;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -33,12 +34,16 @@ public class CartItem extends BaseEntity {
 
     private int count;
 
-    public static CartItem createCartItem(Cart cart, Item item, int count){
+    @Enumerated(EnumType.STRING)
+    private ItemSize itemSize;
+
+    public static CartItem createCartItem(Cart cart, Item item, int count, ItemSize itemSize){
         CartItem cartItem = new CartItem();
 
         cartItem.setCart(cart);
         cartItem.setItem(item);
         cartItem.setCount(count);
+        cartItem.setItemSize(itemSize);
 
         return cartItem;
     }

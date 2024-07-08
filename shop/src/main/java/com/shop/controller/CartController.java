@@ -64,6 +64,7 @@ public class CartController {
         List<CartDetailDto> cartDetailList =
                 cartService.getCartList(principal.getName());
 
+        log.info("내 장바구니 아이템 목록:" + cartDetailList.size());
         log.info("cartDetailList: " + cartDetailList);
         model.addAttribute("cartItems" , cartDetailList);
         return "cart/cartList";

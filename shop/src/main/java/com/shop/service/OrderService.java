@@ -1,13 +1,11 @@
 package com.shop.service;
 
+import com.shop.dto.ItemOrderDto;
 import com.shop.dto.OrderDto;
 import com.shop.dto.OrderHistDto;
 import com.shop.dto.OrderItemDto;
 import com.shop.entity.*;
-import com.shop.repository.ItemImgRepository;
-import com.shop.repository.ItemRepository;
-import com.shop.repository.MemberRepository;
-import com.shop.repository.OrderRepository;
+import com.shop.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -31,6 +29,7 @@ public class OrderService {
     private final ItemRepository itemRepository;
     private final MemberRepository memberRepository;
     private final ItemImgRepository itemImgRepository;
+    private final CartItemRepository cartItemRepository;
 
     public Long order(OrderDto orderDto, String email){
 //        Optional<Item>results = itemRepository.findById(orderDto.getItemId());
@@ -43,7 +42,7 @@ public class OrderService {
 
         List<OrderItem> orderItemList  = new ArrayList<>();
 
-        OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());
+        OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount(), orderDto.getItemSize());
 
         orderItemList.add(orderItem);
 
@@ -111,7 +110,7 @@ public class OrderService {
             Item item = itemRepository.findById(orderDto.getItemId())
                     .orElseThrow(EntityNotFoundException::new);
 
-            OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());
+            OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount(),orderDto.getItemSize());
             orderItemList.add(orderItem);
         }
 
@@ -119,5 +118,26 @@ public class OrderService {
         orderRepository.save(order);
 
         return order.getId();
+    }
+
+    public List<ItemOrderDto> getCartItemDtos(List<Long> cartItemIds) {
+        List<ItemOrderDto> ItemOrderDtos = new ArrayList<>();
+        for (Long cartItemId : cartItemIds) {
+            CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(() -> new EntityNotFoundException("CartItem not found"));
+            Item item = itemRepository.findById(cartItem.getItem().getId()).orElseThrow(() -> new EntityNotFoundException("Item not found"));
+            ItemImg itemImg = itemImgRepository.findByItemIdAndRepimgYn(cartItem.getItem().getId(), "Y");
+            ItemOrderDto itemOrderDto = ItemOrderDto.builder()
+                    .id(item.getId())
+                    .itemSize(cartItem.getItemSize())
+                    .count(cartItem.getCount())
+                    .itemNm(item.getItemNm())
+                    .price(item.getPrice())
+                    .imgUrl(itemImg.getOriUrl())
+                    .build();
+
+            ItemOrderDtos.add(itemOrderDto);
+        }
+        log.info("ItemOrderDtos:" + ItemOrderDtos);
+        return ItemOrderDtos;
     }
         }
