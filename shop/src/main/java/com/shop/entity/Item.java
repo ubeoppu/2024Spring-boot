@@ -60,7 +60,7 @@ public class Item extends BaseEntity {
         float tmpRating = this.rating * this.ratingCount;
         this.ratingCount--;
         this.rating = tmpRating - rating / this.ratingCount;
-     }
+    }
 
     public void updateItem(ItemFormDto itemFormDto){
         this.itemNm = itemFormDto.getItemNm();

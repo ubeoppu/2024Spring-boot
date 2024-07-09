@@ -248,7 +248,7 @@
 
     <div class="d-flex">
         <div class="repImgDiv">
-<!--            <img th:src="${item.itemImgDtoList[0].oriUrl}" class = "rounded repImg" th:alt="${item.itemNm}">-->
+            <!--            <img th:src="${item.itemImgDtoList[0].oriUrl}" class = "rounded repImg" th:alt="${item.itemNm}">-->
             <img th:src="${item.itemImgDtoList[0].imgUrl}" class = "rounded repImg" th:alt="${item.itemNm}">
         </div>
         <div class="wd50">
@@ -299,7 +299,7 @@
                 재고 선택 SIZE:
                 <select id="custom-select">
                     <th:block th:each="issm,status:${sizeStockNumbers}">
-                    <option th:value="${issm.itemSize}">[[${issm.itemSize}]] &nbsp; 재고: [[${issm.stockNumber}]]</option>
+                        <option th:value="${issm.itemSize}">[[${issm.itemSize}]] &nbsp; 재고: [[${issm.stockNumber}]]</option>
                     </th:block>
                 </select>
             </div>

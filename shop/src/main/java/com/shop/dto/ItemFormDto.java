@@ -35,11 +35,12 @@ public class ItemFormDto {
 //    @NotNull(message = "재고는 필수 입력 값입니다.")
 //    private Integer stockNumber;
     @NotNull(message="상품 종류는 필수 입력 값입니다.")
-    @Enumerated(EnumType.STRING)//열거형 타입
+    //    @Enumerated(EnumType.STRING)//열거형 타입
     private ItemType itemType;
 
     private String itemTypeDetail;
 
+//    @Enumerated(EnumType.STRING)
     private ItemSize itemSize;
 
     private int sizeXXL;
@@ -52,7 +53,7 @@ public class ItemFormDto {
 
     private int sizeS;
 
-    @Enumerated(EnumType.STRING)//열거형 타입.. 상수 그룹화
+//    @Enumerated(EnumType.STRING)//열거형 타입.. 상수 그룹화
     private ItemSellStatus itemSellStatus;
 
     private float rating;

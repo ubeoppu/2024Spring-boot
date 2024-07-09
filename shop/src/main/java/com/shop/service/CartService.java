@@ -57,7 +57,7 @@ public class CartService {
         //장바구니 상품 존재 여부 ?
         log.info("아니면 여기가?..");
         CartItem savedCartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
-log.info("카트아이템값" + savedCartItem);
+        log.info("카트아이템값" + savedCartItem);
         if(savedCartItem != null){
             savedCartItem.addCount(cartItemDto.getCount());
             return savedCartItem.getId();
@@ -119,19 +119,23 @@ log.info("카트아이템값" + savedCartItem);
     }
 
     public void countCartItem(Long cartId){
-        int countCartItem = cartItemRepository.countCartItemById(cartId);
+        int countCartItem = cartItemRepository.countCartItemByCartId(cartId);
         log.info("countCartItem:" + countCartItem);
     }
 
     public int getCartCount(Principal principal){
+        log.info("작동여부..1");
         int countCart = 0;
         if(principal != null) {
+            log.info("작동여부..2");
             Member member = memberRepository.findByEmail(principal.getName());
             Cart cart = cartRepository.findByMemberId(member.getId());
             if(cart != null){
-            countCart = cartItemRepository.countCartItemById(cart.getId());
+                log.info("작동여부..4");
+                countCart = cartItemRepository.countCartItemByCartId(cart.getId());
             }
         }
+        log.info("cc"+countCart);
         return countCart;
     }
 

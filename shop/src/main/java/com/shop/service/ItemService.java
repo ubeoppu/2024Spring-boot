@@ -48,7 +48,7 @@ public class ItemService {
         int S= itemFormDto.getSizeS();
         Long itemId = findItem.getId();
         log.info("itemId:" + itemId);
-         //XXL
+        //XXL
         ItemSizeStockNumber itemSizeStockNumber = ItemSizeStockNumber.builder()
                 .itemSize(ItemSize.XXL)
                 .item(findItem)
@@ -163,22 +163,22 @@ public class ItemService {
         List<ItemOrderDto> itemOrderDtoList = new ArrayList<>();
 
         for(int i = 0; i<ItemIds.size(); i++){
-        Item item = itemRepository.findById(ItemIds.get(i)).orElseThrow(() -> new EntityNotFoundException("Item not found"));
-        ItemImg img = itemImgRepository.findByItemIdAndRepimgYn(ItemIds.get(i), "Y");
+            Item item = itemRepository.findById(ItemIds.get(i)).orElseThrow(() -> new EntityNotFoundException("Item not found"));
+            ItemImg img = itemImgRepository.findByItemIdAndRepimgYn(ItemIds.get(i), "Y");
 
-        ItemOrderDto itemOrderDto = new ItemOrderDto();
-        itemOrderDto.setId(item.getId());
-       itemOrderDto.setImgUrl(img.getOriUrl());
-       itemOrderDto.setItemNm(item.getItemNm());
-       itemOrderDto.setPrice(item.getPrice());
-       itemOrderDto.setItemSize(itemSizes.get(i));
-       itemOrderDto.setCount(counts.get(i));
-
-
+            ItemOrderDto itemOrderDto = new ItemOrderDto();
+            itemOrderDto.setId(item.getId());
+            itemOrderDto.setImgUrl(img.getOriUrl());
+            itemOrderDto.setItemNm(item.getItemNm());
+            itemOrderDto.setPrice(item.getPrice());
+            itemOrderDto.setItemSize(itemSizes.get(i));
+            itemOrderDto.setCount(counts.get(i));
 
 
 
-        itemOrderDtoList.add(itemOrderDto);
+
+
+            itemOrderDtoList.add(itemOrderDto);
         }
         log.info("test"+itemOrderDtoList);
         return itemOrderDtoList;

@@ -102,6 +102,7 @@ public class OrderController {
         Member member = memberRepository.findByEmail(principal.getName());
         log.info("orderItemDtoList:Line102:" + itemOrderDtoList);
         int allPrice = itemOrderDtoList.stream().mapToInt(dto -> dto.getPrice() * dto.getCount()).sum();
+        log.info("member:" + member);
 
         log.info("allPrice:" + allPrice);
         model.addAttribute("items", itemOrderDtoList);
@@ -121,9 +122,9 @@ public class OrderController {
 
         }
 
-         Member member = memberRepository.findByEmail(principal.getName());
-         log.info("member" + member);
-         log.info("아이템 오더리스트:"+ itemOrderDtoList);
+        Member member = memberRepository.findByEmail(principal.getName());
+        log.info("member" + member);
+        log.info("아이템 오더리스트:"+ itemOrderDtoList);
         model.addAttribute("member", member);
         model.addAttribute("items", itemOrderDtoList);
         int allPrice = itemOrderDtoList.stream().mapToInt(dto -> dto.getPrice() * dto.getCount()).sum();

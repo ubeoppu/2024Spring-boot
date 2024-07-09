@@ -25,12 +25,18 @@
 
             var totalPrice = $("#totalPrice").text();
             console.log('itemCount' + itemCount)
+            if(itemCount > 1){
+                var payItemNm =  itemNm+ ' 외' + itemCount + '개';
+            }else{
+                var payItemNm = itemNm;
+            }
+
             IMP.request_pay(
                 {
                     pg: "html5_inicis",		//KG이니시스 pg파라미터 값
                     pay_method: "card",		//결제 방법
                     merchant_uid: "1234578",//주문번호
-                    name: itemNm+' 외' +itemCount +'개',		//상품 명
+                    name: payItemNm,		//상품 명
                     amount: totalPrice,			//금액
                     buyer_email: "gildong@gmail.com",
                     buyer_name: "홍길동",
@@ -86,111 +92,114 @@
             font-size: 18px;
         }
 
-       #addressComponent > #addChn{
+        #addressComponent > #addChn{
             text-align: right;
         }
 
-       #itemInfoComponent{
-           padding: 30px;
-           height: 330px;
-           width: 1000px;
-           margin: auto;
-           margin-bottom: 9px;
-           border-style: solid;
-           border-width: 1px;
-           border-radius: 7px;
-       }
+        #itemInfoComponent{
+            padding: 30px;
+            height: 330px;
+            width: 1000px;
+            margin: auto;
+            margin-bottom: 9px;
+            border-style: solid;
+            border-width: 1px;
+            border-radius: 7px;
+        }
 
-       .orderMenu{
-           all: unset;
-       }
+        .orderMenu{
+            all: unset;
+        }
 
-       .scroll-area{
-           overflow-y: scroll;
-           height: 1164px;
-       }
+        .scroll-area{
+            overflow-y: scroll;
+            height: 1164px;
+        }
 
-       img{
-           width: 150px;
-           height: 150px;
-       }
-       #final{
-           padding: 30px;
-           height:300px;
-           width:1000px;
-           margin: auto;
-           background: cornflowerblue;
-       }
-       #orderpay{
-           cursor: pointer;
-           border-radius: 5px;
-           background: black;
-           color: white;
-           width: 400px;
-           height: 50px;
-           font-weight: bold;
-           font-size: 19px;
-       }
+        img{
+            width: 150px;
+            height: 150px;
+        }
+        #final{
+            padding: 30px;
+            height: 300px;
+            width: 1000px;
+            margin: auto;
+            border-style: solid;
+            border-width: 1px;
+            border-radius: 5px;
+            margin-bottom: 100px;
+        }
+        #orderpay{
+            cursor: pointer;
+            border-radius: 5px;
+            background: black;
+            color: white;
+            width: 400px;
+            height: 50px;
+            font-weight: bold;
+            font-size: 19px;
+        }
 
     </style>
 </th:block>
 
 <div layout:fragment="content" style="margin-top:100px;">
-<div class="scroll-area1">
-    <div id="addressComponent">
+    <div class="scroll-area1">
+        <div id="addressComponent">
 
 
-        <p>배송지</p>
-        <span th:text="${member.name}"></span><br>
-        <th:block th:if="${member.phone} == null or ${member.phone} == ''">
-        <a href="/members/phone" id="addPho">입력된 전화번호가 없습니다. 전화번호를 등록해주세요</a>
-        </th:block>
-        <span th:text="${member.phone}"></span><br>
-        <th:block th:if="${member.address} == null or ${member.address} == ''">
-            <a href="/members/address" id="addAddr">입력된 배송지가 없습니다. 배송지를 등록해주세요</a>
-        </th:block>
-        <th:block th:if="${member.address} != null and ${member.address} != ''">
-        <span th:text="${member.streetAddress +''+ member.detailAddress}"><a href="/members/address" id="addChn">배송지 변경</a></span>
-        </th:block>
+            <p>배송지</p>
+            <span th:text="${member.name}"></span><br>
+            <th:block th:if="${member.phone} == null or ${member.phone} == ''">
+                <a href="/members/phone" id="addPho">입력된 전화번호가 없습니다. 전화번호를 등록해주세요</a>
+            </th:block>
+            <span th:text="${member.phone}"></span><br>
+            <th:block th:if="${member.address} == null or ${member.address} == ''">
+                <a href="/members/address" id="addAddr">입력된 배송지가 없습니다. 배송지를 등록해주세요</a>
+            </th:block>
+            <th:block th:if="${member.address} != null and ${member.address} != ''">
+                <span th:text="${member.streetAddress +''+ member.detailAddress}"><a href="/members/address" id="addChn">배송지 변경</a></span>
+            </th:block>
 
-<!--    <span th:text="${member.phone}"></span>-->
-    <span th:if="${member.address != null}">
+            <!--    <span th:text="${member.phone}"></span>-->
+            <span th:if="${member.address != null}">
     <span th:text="${member.address}"></span>
          </span><br>
-    <select name="deliveryMessage">
-        <option value="부재 시 집 앞에 놔주세요">부재 시 집 앞에 놔주세요</option>
-        <option value="배송 시 요청사항을 선택해주세요">배송 시 요청사항을 선택해주세요</option>
-        <option value="부재 시 경비실에 맡겨주세요">부재 시 경비실에 맡겨주세요</option>
-        <option value="부재 시 택배함에 넣어주세요">부재 시 택배함에 넣어주세요</option>
-        <option value="배송 전 연락바랍니다">배송 전 연락바랍니다</option>
-    </select>
+            <select name="deliveryMessage">
+                <option value="부재 시 집 앞에 놔주세요">부재 시 집 앞에 놔주세요</option>
+                <option value="배송 시 요청사항을 선택해주세요">배송 시 요청사항을 선택해주세요</option>
+                <option value="부재 시 경비실에 맡겨주세요">부재 시 경비실에 맡겨주세요</option>
+                <option value="부재 시 택배함에 넣어주세요">부재 시 택배함에 넣어주세요</option>
+                <option value="배송 전 연락바랍니다">배송 전 연락바랍니다</option>
+            </select>
 
-    </div>
-    <div id="itemHeader"><p>상품 정보</p></div>
-    <th:block th:each="item, iterStat : ${items}">
-    <div id="itemInfoComponent">
+        </div>
+        <div id="itemHeader"><p>상품 정보</p></div>
+        <th:block th:each="item, iterStat : ${items}">
+            <div id="itemInfoComponent">
 
-<img th:src="${item.imgUrl}" th:alt="${item.itemNm}">
-        <span th:id="'itemNm' + ${iterStat.index}" th:text="${item.itemNm}"/><br>
-        <span th:text="'구매 수량'+ ${item.count} +'개'"/><br>
-        <span th:text="'옵션 ' + ${item.itemSize}"></span><br>
+                <img th:src="${item.imgUrl}" th:alt="${item.itemNm}">
+                <span th:id="'itemNm' + ${iterStat.index}" th:text="${item.itemNm}"/><br>
+                <span th:text="'구매 수량'+ ${item.count} +'개'"/><br>
+                <span th:text="'옵션 ' + ${item.itemSize}"></span><br>
 
-<span th:text="${item.price}+'원'"></span>
+                <span th:text="${item.price}+'원'"></span>
 
-    </div>
+            </div>
         </th:block>
 
-    <div id="final">
-        <p>최종 결제 금액</p><br>
+        <div id="final">
+            <p>최종 결제 금액</p><br>
 
 
-    <span th:text="'상품금액 '+ ${allPrice}"></span><br>
-        <span th:text="'배송비 '+ 3000"></span><br>
-     <span>총 결제 금액</span>   <span th:id="totalPrice" th:name="totalPrice" th:text="${allPrice + 3000}"/>
+            <span th:text="'상품금액 '+ ${allPrice}"></span><br>
+            <span th:text="'배송비 '+ 3000"></span><br>
+            <span>총 결제 금액</span>   <span th:id="totalPrice" th:name="totalPrice" th:text="${allPrice + 3000}"/>
 
-        <button type="button" id="orderpay" onclick="requestPay()">결제</button>
+            <button type="button" th:id="orderpay" onclick="requestPay()">결제</button>
 
+        </div>
     </div>
-</div>
 </div>
 </html>

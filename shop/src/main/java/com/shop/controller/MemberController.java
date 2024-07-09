@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.shop.constant.Role;
 import com.shop.dto.MailDto;
 import com.shop.dto.MemberFormDto;
+import com.shop.dto.MemberUpdateDto;
 import com.shop.entity.Member;
 import com.shop.repository.MemberRepository;
 import com.shop.service.MailService;
@@ -43,6 +44,12 @@ public class MemberController {
     private final oAuthService oAuthService;
     private final MemberRepository memberRepository;
     private final MailService mailService;
+
+
+    @GetMapping("/members/agree")
+    public String checkAgree(){
+        return "member/checkAgree";
+    }
 
     @GetMapping("/members/new")
     public String newMember(Model model) {
@@ -191,8 +198,12 @@ public class MemberController {
         return "mypage/myInfo";
     }
 
+    @GetMapping("/members/checkPwdForm")
+    public String checkPwdView() {
+        return "member/passwordCheckForm";
+    }
 
-    @GetMapping("/checkPwd")
+    @GetMapping("/members/checkPwd")
     @ResponseBody
     public boolean checkPwdView(Principal principal,
                                 Member member, @RequestParam String checkPassword,
@@ -204,7 +215,73 @@ public class MemberController {
         return memberService.checkPassword(memberId, checkPassword);
     }
 
-    @GetMapping(value = "/findMember")
+//    @GetMapping(value = "/updateForm")
+//    public String updateMemberForm(Principal principal,Model model){
+//        String loginId = principal.getName();
+//        Member memberId = memberRepository.findByEmail(loginId);
+//        model.addAttribute("member", memberId);
+//
+//        return "settings/memberUpdateForm";
+//    }
+
+    @GetMapping(value = "/members/pwd")
+    public String pwdUpdateForm(Principal principal, Model model){
+        String loginId = principal.getName();
+        Member member = memberRepository.findByEmail(loginId);
+
+        MemberUpdateDto memberUpdateDto = new MemberUpdateDto();
+
+        memberUpdateDto.setPassword(member.getPassword());
+
+        model.addAttribute("memberUpdateDto", memberUpdateDto);
+
+        return "settings/pwdUpdateForm";
+    }
+
+    @PostMapping(value = "/members/pwd")
+    public String updatePwd(@ModelAttribute MemberUpdateDto memberUpdateDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("memberUpdateDto", memberUpdateDto);
+            return "settings/pwdUpdateForm";
+        }
+
+        try {
+            memberService.updatePassword(memberUpdateDto);
+            return "redirect:/";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "비밀번호 변경 중 오류가 발생했습니다: " + e.getMessage());
+            return "settings/pwdUpdateForm";
+        }
+    }
+
+    @GetMapping(value = "/members/updateForm")
+    public String updateMemberForm(Principal principal, Model model) {
+        String loginId = principal.getName();
+        Member member = memberRepository.findByEmail(loginId);
+
+        MemberUpdateDto memberUpdateDto = new MemberUpdateDto();
+        memberUpdateDto.setEmail(member.getEmail());
+        memberUpdateDto.setName(member.getName());
+        memberUpdateDto.setPhone(member.getPhone());
+        memberUpdateDto.setAddress(member.getAddress());
+        memberUpdateDto.setStreetAddress(member.getStreetAddress());
+        memberUpdateDto.setDetailAddress(member.getDetailAddress());
+
+        model.addAttribute("memberUpdateDto", memberUpdateDto);
+
+        return "settings/memberUpdateForm";
+    }
+
+
+    @PostMapping(value = "/members/updateForm")
+    public String updateMember(MemberUpdateDto memberUpdateDto, Model model){
+
+        model.addAttribute("member", memberUpdateDto);
+        memberService.updateMember(memberUpdateDto);
+        return "redirect:/members/loginInfo";
+    }
+
+    @GetMapping(value = "/members/findMember")
     public String findMember(Model model){
         return "member/findMemberForm";
     }
@@ -218,7 +295,7 @@ public class MemberController {
         return "member/memberLoginForm";
     }
 
-    @RequestMapping(value = "/findId", method = RequestMethod.POST)
+    @RequestMapping(value = "/members/findId", method = RequestMethod.POST)
     @ResponseBody
     public String findId(@RequestParam("memberEmail") String memberEmail){
         String email = String.valueOf(memberRepository.findByEmail(memberEmail).getId());
@@ -228,19 +305,10 @@ public class MemberController {
         } else {
             return email;
         }
-//        Member member = memberRepository.findByEmail(memberEmail);
-//        if (member == null) {
-//            return "null";
-//        } else {
-//            return String.valueOf(member.getId());
-//        }
+
     }
 
-    @GetMapping("/members/address")
-    public String addressChange(Model model){
 
-        return null;
-    }
 
 
 }

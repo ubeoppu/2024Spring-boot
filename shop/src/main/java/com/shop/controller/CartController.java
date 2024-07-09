@@ -27,7 +27,7 @@ public class CartController {
 
     @PostMapping(value="/cart")
     public @ResponseBody ResponseEntity order(@RequestBody@Valid CartItemDto cartItemDto,
-                                            BindingResult bindingResult, Principal principal) {
+                                              BindingResult bindingResult, Principal principal) {
 
         log.info("cartItemDto: " + cartItemDto);
         log.info("principal.getEmail:" + principal.getName());

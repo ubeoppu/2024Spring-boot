@@ -40,6 +40,8 @@ public class Member  extends BaseEntity{
     //Ex:Role { 'Admin', 'Member'}
     private Role role;
 
+    private String originalPassword;
+
     // 이거 대신 Mapper란 것 이용할 수 있음.
     public static  Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder){
         return Member.builder()
@@ -61,6 +63,28 @@ public class Member  extends BaseEntity{
     public void updatePassword(String encodePw) {
         this.password = encodePw;
     }
+    public void updateUsername(String name) {
+        this.name = name;
+    }
 
+    public void updateOriginalPassword(String originalPassword) {
+        this.originalPassword = originalPassword;
+    }
+
+    public void updateAddress(String address) {
+        this.address = address;
+    }
+
+    public void updateStreetAddress(String streetaddress) {
+        this.streetAddress = streetaddress;
+    }
+
+    public void updateDetailAddress(String detailaddress) {
+        this.detailAddress = detailaddress;
+    }
+
+    public void updatePhone(String phone) {
+        this.phone = phone;
+    }
 
 }

@@ -80,9 +80,9 @@ public class OrderService {
         return new PageImpl<OrderHistDto>(orderHistDtos, pageable, totalCount);
 
 
-            }
+    }
 
-            @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public boolean validateOrder(Long orderId, String email){
         Member curMember = memberRepository.findByEmail(email);
         Order order = orderRepository.findById(orderId)
@@ -93,13 +93,13 @@ public class OrderService {
             return false;
         }
         return true;
-            }
+    }
 
-            public void cancelOrder(Long orderId){
+    public void cancelOrder(Long orderId){
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(EntityNotFoundException::new);
         order.cancelOrder();
-            }
+    }
 
     public Long orders(List<OrderDto> orderDtoList, String email){
 
@@ -140,4 +140,4 @@ public class OrderService {
         log.info("ItemOrderDtos:" + ItemOrderDtos);
         return ItemOrderDtos;
     }
-        }
+}

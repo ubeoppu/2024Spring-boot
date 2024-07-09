@@ -11,17 +11,17 @@
     </style>
 </th:block>
 
-<div layout:fragment="content">
+<div layout:fragment="content" style="margin-top:100px; margin-left: 420px;">
     <br></br>
     <h1 class="title">나의 정보</h1>
     <div class="sign-form">
         <div class="form-group">
             <label for="email">이메일</label>
-            <input type="text" th:value="${member != null ? member.email : ''}" class="form-control" style="width:250px;" disabled>
+            <input type="text" th:value="${member != null ? member.email : ''}" class="form-control" style="width:350px;" disabled>
         </div>
         <div class="form-group">
             <label for="name">이름</label>
-            <input type="text" th:value="${member != null ? member.name : ''}" class="form-control" style="width:250px;">
+            <input type="text" th:value="${member != null ? member.name : ''}" class="form-control" style="width:350px;">
         </div>
         <br>
         <div class="form-group">
@@ -30,11 +30,11 @@
         </div>
         <br>
         <div class="form-group">
-            <input type="text" th:value="${member != null ? member.streetaddress : ''}" class="form-control" style="margin-top: -30px">
+            <input type="text" th:value="${member != null ? member.streetAddress : ''}" class="form-control" style="margin-top: -30px; width: 800px;">
         </div>
         <div class="form-group">
             <label for="detailAdr">상세 주소</label>
-            <input type="text" th:value="${member != null ? member.detailaddress : ''}" class="form-control" >
+            <input type="text" th:value="${member != null ? member.detailAddress : ''}" class="form-control" style="width:800px;">
         </div>
         <br><br>
         <div>
@@ -42,7 +42,9 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </div>
 
-        <button type="button" class="btn btn-primary" onClick="location.href='/members/me'">정보 수정</button>
+        <button type="button" class="btn btn-primary" onClick="location.href='/'">홈</button>
+        <button type="button" class="btn btn-primary" onClick="location.href='/members/checkPwdForm'">정보 수정</button>
+        <button type="button" class="btn btn-primary" onClick="location.href='/members/pwd'">비밀번호 수정</button>
     </div>
 </div>
 </html>

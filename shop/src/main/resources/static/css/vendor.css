@@ -268,5 +268,6 @@ body.chocolat-open > .chocolat-image-wrapper {
 #imageBanner {
     width: 1300px;
     height: 540px;
-    margin-left: 400px;
+    /*margin-left: 625px;*/
+    margin-left: 410px;
 }
