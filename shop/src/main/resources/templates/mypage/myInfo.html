@@ -21,20 +21,20 @@
         </div>
         <div class="form-group">
             <label for="name">이름</label>
-            <input type="text" th:value="${member != null ? member.name : ''}" class="form-control" style="width:350px;">
+            <input type="text" th:value="${member != null ? member.name : ''}" class="form-control" style="width:350px;" disabled>
         </div>
         <br>
         <div class="form-group">
             <label for="zipcode">우편번호</label>
-            <input type="text" th:value="${member != null ? member.address : ''}" class="form-control" style="width:200px;">
+            <input type="text" th:value="${member != null ? member.address : ''}" class="form-control" style="width:300px;"disabled>
         </div>
         <br>
         <div class="form-group">
-            <input type="text" th:value="${member != null ? member.streetAddress : ''}" class="form-control" style="margin-top: -30px; width: 800px;">
+            <input type="text" th:value="${member != null ? member.streetAddress : ''}" class="form-control" style="margin-top: -30px; width: 800px;"disabled>
         </div>
         <div class="form-group">
             <label for="detailAdr">상세 주소</label>
-            <input type="text" th:value="${member != null ? member.detailAddress : ''}" class="form-control" style="width:800px;">
+            <input type="text" th:value="${member != null ? member.detailAddress : ''}" class="form-control" style="width:800px;"disabled>
         </div>
         <br><br>
         <div>

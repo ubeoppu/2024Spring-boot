@@ -237,8 +237,48 @@
         .fs18{
             font-size:18px
         }
+        #orderTotalPrice{
+            color:black;
+        }
         .fs24{
             font-size:24px
+        }
+        .countText{
+            all: unset;
+            border-style: solid;
+            border-width: 1px;
+            border-radius: 5px;
+            width: 50px;
+            text-align: center;
+            margin-left: 10px;
+            padding-left: 3px;
+        }
+        .countInput{
+            width: 100px;
+        }
+        .close{
+            border-radius: 5px;
+            /* border-radius: 10px; */
+            margin-right: 1px;
+            background: black;
+            color: white;
+            font-weight: bold;
+            padding-bottom: 3px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .itemPrice{
+            font-weight: bold;
+            color:black;
+        }
+        .totalItemPrice{
+            color:black;
+        }
+        .table{
+            border-style:solid;
+
+
         }
     </style>
 </th:block>
@@ -285,12 +325,14 @@
                                       th:data-price="${cartItem.price}"
                                       th:text="${cartItem.price} + '원'" class="align-self-center mr-2">
                                 </span>
+                                <div class="countInput">
                                 <input type="number" th:id="'count_' + ${cartItem.cartItemId}"
                                        th:value="${cartItem.count}" min="1"
-                                       onchange="changeCount(this)" class="form-control mr-2" >
+                                       onchange="changeCount(this)" class="countText" >
                                 <button type="button" class="close" aria-label="Close">
                                     <span aria-hidden="true" th:data-id="${cartItem.cartItemId}" onclick="deleteCartItem(this)">&times;</span>
                                 </button>
+                                    </div>
                             </span>
                             </div>
                         </div>
@@ -298,7 +340,7 @@
                     <td class="text-center align-middle">
                         <!--                    <input type="text" name="itemId" th:value="${cartItem.itemId}">-->
                         <span th:id="'totalPrice_' + ${cartItem.cartItemId}"
-                              name="totalPrice" th:text="${cartItem.price * cartItem.count} + '원'">
+                              name="totalPrice" class="itemPrice" th:text="${cartItem.price * cartItem.count} + '원'">
                     </span>
                     </td>
                 </tr>
@@ -307,7 +349,7 @@
             </table>
 
             <h2 class="text-center">
-                총 주문 금액 : <span id="orderTotalPrice" class="text-danger">0원</span>
+                총 주문 금액  <span id="orderTotalPrice" class="totalItemPrice">0원</span>
             </h2>
 
             <div class="text-center mt-3">

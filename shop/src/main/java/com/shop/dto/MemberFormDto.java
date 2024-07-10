@@ -12,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
+@ToString
 public class MemberFormDto {
 
     @NotBlank(message = "이름은 필수 입력 값입니다.")

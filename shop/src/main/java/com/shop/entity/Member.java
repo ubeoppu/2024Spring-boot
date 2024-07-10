@@ -49,6 +49,9 @@ public class Member  extends BaseEntity{
                 .email(memberFormDto.getEmail())
                 .address(memberFormDto.getAddress())
                 .password(passwordEncoder.encode(memberFormDto.getPassword()))
+                .phone(memberFormDto.getPhone())
+                .streetAddress(memberFormDto.getStreetAddress())
+                .detailAddress(memberFormDto.getDetailAddress())
                 .role(Role.ADMIN)
                 .build();
     }
@@ -75,12 +78,12 @@ public class Member  extends BaseEntity{
         this.address = address;
     }
 
-    public void updateStreetAddress(String streetaddress) {
-        this.streetAddress = streetaddress;
+    public void updateStreetAddress(String streetAddress) {
+        this.streetAddress = streetAddress;
     }
 
-    public void updateDetailAddress(String detailaddress) {
-        this.detailAddress = detailaddress;
+    public void updateDetailAddress(String detailAddress) {
+        this.detailAddress = detailAddress;
     }
 
     public void updatePhone(String phone) {

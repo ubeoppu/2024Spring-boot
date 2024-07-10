@@ -63,6 +63,7 @@ public class MemberController {
     public String memberForm(@Valid MemberFormDto memberFormDto,
                              BindingResult bindingResult , Model model) {
 
+        log.info("memberFormDto::" + memberFormDto);
         if(bindingResult.hasErrors()) {
             return "member/memberForm";
         }

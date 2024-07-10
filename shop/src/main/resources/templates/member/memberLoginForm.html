@@ -31,7 +31,12 @@
         }
         .Login-form{
             margin-top: 150px;
-            margin-bottom: 100px;
+            margin-bottom: 10px;
+        }
+        .findText{
+            color:black;
+            font-width: bold;
+
         }
     </style>
 </th:block>
@@ -49,6 +54,8 @@
         </div>
         <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"></p>
         </div>
+        <a th:href="@{/members/findId}" class="findText">아이디 찾기</a>
+        <a th:href="@{/members/findPass}" class="findText">비밀번호 찾기</a>
         <div class="buttons">
         <button class="btn btn-primary">로그인</button>
         <button type="button" class="btn btn-primary" onClick="location.href='/members/agree'">회원가입</button>
